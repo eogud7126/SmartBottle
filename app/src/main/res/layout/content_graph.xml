@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_chart"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/waterback">
+
+    <!-- # Main Layout # -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Top Layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4">
+
+            <ImageButton
+                android:id="@+id/chart_ibtn_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_back"
+                android:tint="#ffffff" />
+
+            <TextView
+                android:id="@+id/chart_tv_weekdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:fontFamily="@font/bmhannapro"
+                android:text="2019.03.21~2019.03.21"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/background_dark"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/chart_ibtn_next"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_next"
+                android:tint="#ffffff" />
+
+        </RelativeLayout>
+
+        <!-- Body Layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.8">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#2e3241"
+                android:orientation="horizontal" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bargraph"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout"
+                android:layout_marginTop="12dp"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/chart_tv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:fontFamily="@font/bmhannapro"
+                android:hint="매매"
+                android:text="힘내자"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffff"
+                android:textSize="22sp"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <!-- Bottom Layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/select"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:fontFamily="@font/bmhannapro"
+                        android:gravity="center"
+                        android:scrollbars="vertical"
+                        android:text="선택 요일"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="24dp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/selected_anyday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/selected_anyday"
+                        android:fontFamily="@font/bmhannapro"
+                        android:gravity="center"
+                        android:text="Tlqkf"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="#ffffff"
+                        android:textSize="24dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/chart_tv02"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:fontFamily="@font/bmhannapro"
+                        android:gravity="center"
+                        android:scrollbars="vertical"
+                        android:text="평균 섭취량"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="24dp" />
+
+                    <TextView
+                        android:id="@+id/chart_tv_averagedrink"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/bmhannapro"
+                        android:gravity="center"
+                        android:text="1000 ml"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="#ffffff"
+                        android:textSize="24dp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/chart_tv01"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:fontFamily="@font/bmhannapro"
+                        android:gravity="center"
+                        android:scrollbars="vertical"
+                        android:text="오늘 마신량"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="24dp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/chart_tv_selectday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/bmhannapro"
+                        android:gravity="center"
+                        android:text="1000 ml"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="#ffffff"
+                        android:textSize="24dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
