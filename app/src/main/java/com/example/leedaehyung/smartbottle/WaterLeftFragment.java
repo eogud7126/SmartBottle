@@ -142,22 +142,22 @@ public class WaterLeftFragment extends Fragment{
 
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        purpose_value=getView().findViewById(R.id.purpose_value);
-        int a= Integer.parseInt(purpose_value.getText().toString());
-        outState.putInt("purpose",a);
-    }
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        purpose_value=getView().findViewById(R.id.purpose_value);
+//        int a= Integer.parseInt(purpose_value.getText().toString());
+//        outState.putInt("purpose",a);
+//    }
 
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null){
-            purpose_value.setText(savedInstanceState.getString("purpose"));
-        }
-
-    }
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        super.onViewStateRestored(savedInstanceState);
+//        if(savedInstanceState != null){
+//            purpose_value.setText(savedInstanceState.getString("purpose"));
+//        }
+//
+//    }
 
     public void openDialog() {
         DialogFragment waterdialog = new DialogFragment();

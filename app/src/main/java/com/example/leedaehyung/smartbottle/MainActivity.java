@@ -28,11 +28,16 @@ public class MainActivity extends AppCompatActivity {
     final Fragment fb= new GraphFragment();
     final Fragment fc= new NikeRun();
     Fragment active = fa;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
+////////////////////////////////////////////////////////////////////////////////////////
+        if(savedInstanceState!=null){
+            String aaa=savedInstanceState.getString("aaa","");
+        }
+        /////////////////////////////////////////////////////////////////////////////
         BottomNavigationView bottomNav=findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 

@@ -30,7 +30,7 @@ public class WeightDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
         LayoutInflater inflater= getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.content_dialogsetpurpose,null);
+        View view = inflater.inflate(R.layout.content_dialogsetweight,null);
         weightSet = view.findViewById(R.id.weightSet);
         builder.setView(view).setTitle("몸무게")
                 .setNegativeButton("취소", null)

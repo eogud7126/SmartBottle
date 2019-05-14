@@ -93,10 +93,17 @@ public class NikeRun extends NMapFragment{
 
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("aaa", String.valueOf(NikeRun.this));
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMapContext = new NMapContext(super.getActivity());
         mMapContext.onCreate();
+
     }
 
     @Nullable
@@ -200,19 +207,10 @@ public class NikeRun extends NMapFragment{
             @SuppressLint({"SetTextI18n", "DefaultLocale"})
             @Override
             public void onClick(View v) {
-//                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                    requestLocationPermission();
-//                } else {
-//                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-//                            2000,      //최소 시간 간격(ms)
-//                            1,        //최소 거리(m)
-//                            mLocationListener);
-//
-//                }
                 /////////////////폴리라인그리기////////////////////////////////
                 NMapPathData pathData = new NMapPathData(list.size());
                 pathData.initPathData();
-                for (int i = 0; i < list.size() / 2; i += 2) {
+                for (int i = 0; i < list.size(); i += 2) {
                     pathData.addPathPoint(list.get(i), list.get(i + 1), NMapPathLineStyle.DATA_TYPE_POLYLINE);
                 }
                 NMapPathLineStyle pathLineStyle = new NMapPathLineStyle(nMapView.getContext());
@@ -269,6 +267,30 @@ public class NikeRun extends NMapFragment{
 
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
