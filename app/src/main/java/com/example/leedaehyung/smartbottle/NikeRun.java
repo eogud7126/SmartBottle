@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.leedaehyung.smartbottle.sessionmanager.SessionManager;
 import com.nhn.android.maps.NMapContext;
 import com.nhn.android.maps.NMapController;
 import com.nhn.android.maps.NMapView;
@@ -48,6 +49,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
@@ -61,6 +63,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class NikeRun extends NMapFragment{
 
     private View v = null;
+    String getSpeedCal="";
+    private SessionManager sm;
     private TextView tvTime;
     private TextView tvSpeed;
     private TextView tvCalory;
@@ -112,6 +116,7 @@ public class NikeRun extends NMapFragment{
 
         View v = inflater.inflate(R.layout.content_nikerun, container, false);
         //this.v = v;
+        sm = new SessionManager(getContext());
         tvSpeed = v.findViewById(R.id.setspeed);
         tvCalory = v.findViewById(R.id.setcalory);
         tvDistance = v.findViewById(R.id.distance);
@@ -166,22 +171,6 @@ public class NikeRun extends NMapFragment{
                         });
                         dialog.show(getFragmentManager(),"addDialog");
 
-//                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                            requestLocationPermission();
-//                        } else {
-//                            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-//                                    2000,      //최소 시간 간격(ms)
-//                                    2,        //최소 거리(m)
-//                                    mLocationListener);
-//
-//                        }
-//                        myBaseTime = SystemClock.elapsedRealtime();
-//                        System.out.println(myBaseTime);
-//                        //myTimer이라는 핸들러를 빈 메세지를 보내서 호출
-//                        myTimer.sendEmptyMessage(0);
-//                        startButton.setText("멈춤"); //버튼의 문자"시작"을 "멈춤"으로 변경
-//                        //myBtnRec.setEnabled(true); //기록버튼 활성
-//                        cur_Status = Run; //현재상태를 런상태로 변경
                         break;
                     case Run:
                         myTimer.removeMessages(0); //핸들러 메세지 제거
@@ -221,6 +210,19 @@ public class NikeRun extends NMapFragment{
                 pathDataOverlay.showAllPathData(0);
                 tvDistance.setText(String.format("%.2f",distance)+"m");
                 /////////////////폴리라인그리기/////////////////////////////////
+                try {
+                    getSpeedCal= new TimeDistanceTask().execute("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/time_distance").get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.e("속력칼로리",getSpeedCal);
+                if(getSpeedCal!="") {
+                    StringTokenizer speedCal = new StringTokenizer(getSpeedCal,"/");
+                    tvSpeed.setText(speedCal.nextToken()+"km/h");
+                    tvCalory.setText(speedCal.nextToken()+"kcal");
+                }
             }
         });
         resetButton.setOnClickListener(new View.OnClickListener(){
@@ -235,7 +237,6 @@ public class NikeRun extends NMapFragment{
                 startButton.setText("시작");
                 //myBtnRec.setText("기록");
                 //서버로 time과 distance값 보내기
-                new TimeDistanceTask().execute("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/time_distance");
                 //그 후 0초로 초기화
                 myOutput.setText("00:00:00");
                 tvDistance.setText("0m");
@@ -412,6 +413,7 @@ public class NikeRun extends NMapFragment{
 
                 JSONObject jsonObject=new JSONObject();
 
+                //jsonObject.accumulate("id",sm.getse());
                 jsonObject.accumulate("weight",getweight);
                 HttpURLConnection con= null;
                 BufferedReader reader=null;
@@ -471,7 +473,7 @@ public class NikeRun extends NMapFragment{
 
     }
 
-    ///////////////////////////몸무게 서버로 보내기////////////////////////////////
+    ///////////////////////////시간과 거리 서버로 보내기////////////////////////////////
     @SuppressLint("StaticFieldLeak")
     public class TimeDistanceTask extends AsyncTask<String,String,String> {
         @Override
@@ -480,9 +482,15 @@ public class NikeRun extends NMapFragment{
                 //JSONObject 를 만들고 키값 형식으로 저장해준다.
 
                 JSONObject jsonObject = new JSONObject();
+                StringTokenizer time = new StringTokenizer(myOutput.getText().toString(),":");
+                String hour = time.nextToken();
+                String min = time.nextToken();
+                String sec = time.nextToken();
+                double hours = Double.parseDouble(hour) + (Double.parseDouble(min)*60 + Double.parseDouble(sec))/3600;
 
-                jsonObject.accumulate("jogtime", myOutput.getText().toString());
-                jsonObject.accumulate("distance", tvDistance.getText().toString());
+
+                jsonObject.accumulate("jogtime", hours);
+                jsonObject.accumulate("distance", distance);
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
                 try {
@@ -536,6 +544,7 @@ public class NikeRun extends NMapFragment{
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             // 서버로부터 받을값을 출력
+            Log.e("보내줘",result);
         }
     }
 

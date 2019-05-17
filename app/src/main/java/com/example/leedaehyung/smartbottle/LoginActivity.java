@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.leedaehyung.smartbottle.sessionmanager.SessionManager;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -35,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     Button signup;
     EditText id;
     EditText pass;
-
+    private SessionManager sessionManager;
 
 
     @Override
@@ -52,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+         sessionManager = new SessionManager(getApplicationContext());
          login= findViewById(R.id.login);
          signup = findViewById(R.id.signupbutton);
          id= findViewById(R.id.login_id);
@@ -143,6 +147,8 @@ public class LoginActivity extends AppCompatActivity {
 
             if(result.equals("OK")){
                 //로그인 성공시
+                sessionManager.createSession(id.getText().toString());
+
                 Intent intent2 = new Intent(getApplicationContext(),MainActivity.class);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent2);

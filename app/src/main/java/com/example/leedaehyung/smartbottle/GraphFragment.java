@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.leedaehyung.smartbottle.sessionmanager.SessionManager;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -56,6 +57,7 @@ import butterknife.ButterKnife;
 public class GraphFragment extends Fragment implements OnChartValueSelectedListener {
 
     private View rootView = null;
+    private SessionManager sm;
     Integer[] daySum = new Integer[7];
     TextView tv_date;
     TextView tv_chartMessage;
@@ -69,6 +71,7 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.content_graph, container, false);
         ButterKnife.bind(this,rootView);
+        sm= new SessionManager(getContext());
         this.rootView = rootView;
         return rootView;
     }
@@ -305,64 +308,7 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
 
     }
 
-    //////////////////////마신량을 서버로부터 받기////////////////////////////
-//    @SuppressLint("StaticFieldLeak")
-//    public class GraphTask extends AsyncTask<String, String, String> {
-//        @Override
-//        protected String doInBackground(String... strings) {
-//            try {
-//                //JSONObject 를 만들고 키값 형식으로 저장해준다.
-//
-//                JSONObject jsonObject = new JSONObject();
-//
-//                HttpURLConnection con = null;
-//                BufferedReader reader = null;
-//                try {
-//                    URL url = new URL("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/day_drank");
-//                    con = (HttpURLConnection) url.openConnection();
-//                    con.connect();
-//                    //서버로부터 데이터를 받음
-//                    InputStream stream = con.getInputStream();
-//                    reader = new BufferedReader(new InputStreamReader(stream));
-//                    StringBuffer buffer = new StringBuffer();
-//                    String line = "";
-//                    while ((line = reader.readLine()) != null) {
-//                        buffer.append(line);
-//                    }
-//                    return buffer.toString();   //서버로부터 받은 값을 리턴해줌
-//                } catch (MalformedURLException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    if (con != null) {
-//                        con.disconnect();
-//                    }
-//                    try {
-//                        if (reader != null) {
-//                            reader.close();//버퍼를 닫아줌
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//        @SuppressLint("DefaultLocale")
-//        @Override
-//        protected void onPostExecute(String result) {
-//            super.onPostExecute(result);
-            //Toast.makeText(getActivity(),result,Toast.LENGTH_LONG).show();
-            // 서버로부터 받을값을 출력
-            //daySum= Integer.parseInt(result);
-//       }
 
-//    }
-//////////////////////마신량을 서버로부터 받기////////////////////////////
 
     //////////////////////평균 마신량을 서버로부터 받기////////////////////////////
     @SuppressLint("StaticFieldLeak")
@@ -374,6 +320,7 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
 
                 JSONObject jsonObject = new JSONObject();
 
+                jsonObject.accumulate("id",sm.getse());
                 jsonObject.accumulate("date", DateUtils.getFarDay(dateCount));
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
@@ -445,6 +392,7 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
 
                 JSONObject jsonObject = new JSONObject();
 
+                jsonObject.accumulate("id",sm.getse());
                 jsonObject.accumulate("date", DateUtils.getFarDay(dateCount));
                 HttpURLConnection con = null;
                 BufferedReader reader = null;

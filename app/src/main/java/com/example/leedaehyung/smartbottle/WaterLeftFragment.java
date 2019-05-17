@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.leedaehyung.smartbottle.sessionmanager.SessionManager;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -35,7 +37,7 @@ import butterknife.ButterKnife;
 import me.itangqi.waveloadingview.WaveLoadingView;
 
 public class WaterLeftFragment extends Fragment{
-
+    private SessionManager sm;
     double percent=0;
     double today_amount=0;
     WaveLoadingView waveLoadingView ;
@@ -58,7 +60,8 @@ public class WaterLeftFragment extends Fragment{
         purpose_value = v.findViewById(R.id.purpose_value);
         tv_todayamount=v.findViewById(R.id.today_amount);
         //서버로부터 데이터 받아옴.
-
+        sm = new SessionManager(getContext());
+        Log.e("id",sm.getse());
         setpurposeButton.setOnClickListener(new View.OnClickListener() {    //목표량 설정버튼 클릭시 실행 리스너
             @Override
             public void onClick(View v) {
@@ -179,12 +182,26 @@ public class WaterLeftFragment extends Fragment{
             //JSONObject 를 만들고 키값 형식으로 저장해준다.
 
             JSONObject jsonObject = new JSONObject();
-
-            HttpURLConnection con = null;
-            BufferedReader reader = null;
+            jsonObject.accumulate("id",sm.getse());
+            HttpURLConnection con= null;
+            BufferedReader reader=null;
             try {
                 URL url = new URL("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/todayamount");
                 con = (HttpURLConnection) url.openConnection();
+
+                con.setRequestMethod("POST");//POST방식으로 보냄
+                con.setRequestProperty("Cache-Control", "no-cache");//캐시설정
+                con.setRequestProperty("Content-Type", "application/json");//application JSON 형식으로 전송
+                con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
+                con.setDoOutput(true);//OutStream으로 post데이터를 넘겨주곘다.
+                con.setDoInput(true);//InputStream으로 서버로부터 응답을 받겠다.
+                con.connect();
+                //서버로부터 데이터를 받음
+                OutputStream outStream = con.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+                writer.write(jsonObject.toString());
+                writer.flush();
+                writer.close();
                 con.connect();
                 //서버로부터 데이터를 받음
                 InputStream stream = con.getInputStream();
@@ -238,6 +255,7 @@ public class WaterLeftFragment extends Fragment{
 
                 JSONObject jsonObject=new JSONObject();
 
+                jsonObject.accumulate("id",sm.getse());
                 jsonObject.accumulate("purpose",getpurpose);
                 HttpURLConnection con= null;
                 BufferedReader reader=null;
@@ -250,6 +268,7 @@ public class WaterLeftFragment extends Fragment{
                     con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
                     con.setDoOutput(true);//OutStream으로 post데이터를 넘겨주곘다.
                     con.setDoInput(true);//InputStream으로 서버로부터 응답을 받겠다.
+
                     con.connect();
                     //서버로 보내기 위해 스트림 생성
                     OutputStream outStream = con.getOutputStream();
@@ -306,13 +325,27 @@ public class WaterLeftFragment extends Fragment{
 
                 JSONObject jsonObject = new JSONObject();
 
-                HttpURLConnection con = null;
-                BufferedReader reader = null;
+                jsonObject.accumulate("id",sm.getse());
+                HttpURLConnection con= null;
+                BufferedReader reader=null;
                 try {
                     URL url = new URL("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/getpurpose");
                     con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");//POST방식으로 보냄
+                    con.setRequestProperty("Cache-Control", "no-cache");//캐시설정
+                    con.setRequestProperty("Content-Type", "application/json");//application JSON 형식으로 전송
+                    con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
+                    con.setDoOutput(true);//OutStream으로 post데이터를 넘겨주곘다.
+                    con.setDoInput(true);//InputStream으로 서버로부터 응답을 받겠다.
                     con.connect();
                     //서버로부터 데이터를 받음
+                    OutputStream outStream = con.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();
+
                     InputStream stream = con.getInputStream();
                     reader = new BufferedReader(new InputStreamReader(stream));
                     StringBuffer buffer = new StringBuffer();
