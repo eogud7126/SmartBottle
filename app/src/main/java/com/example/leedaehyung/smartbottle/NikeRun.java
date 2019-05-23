@@ -220,7 +220,7 @@ public class NikeRun extends NMapFragment{
                 Log.e("속력칼로리",getSpeedCal);
                 if(getSpeedCal!="") {
                     StringTokenizer speedCal = new StringTokenizer(getSpeedCal,"/");
-                    tvSpeed.setText(speedCal.nextToken()+"km/h");
+                    tvSpeed.setText(speedCal.nextToken()+"hkm/");
                     tvCalory.setText(speedCal.nextToken()+"kcal");
                 }
             }

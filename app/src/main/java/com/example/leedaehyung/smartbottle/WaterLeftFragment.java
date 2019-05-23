@@ -170,7 +170,7 @@ public class WaterLeftFragment extends Fragment{
     private void refresh(){
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.detach(this).attach(this).commit();
-        Toast.makeText(getActivity(),"페이지 새로고침",Toast.LENGTH_LONG).show();
+        Log.e("새로고침됨","");
     }
 
     //////////////////////오늘 amount를 서버로부터 받기////////////////////////////

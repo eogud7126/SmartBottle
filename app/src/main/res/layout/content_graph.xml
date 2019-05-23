@@ -83,21 +83,6 @@
                 android:layout_marginTop="12dp"
                 android:background="@android:color/transparent" />
 
-            <TextView
-                android:id="@+id/chart_tv_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:fontFamily="@font/bmhannapro"
-                android:hint="매매"
-                android:text="힘내자"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ffffff"
-                android:textSize="22sp"
-                android:visibility="invisible" />
-
         </RelativeLayout>
 
         <!-- Bottom Layout -->
@@ -145,7 +130,6 @@
                         android:layout_below="@+id/selected_anyday"
                         android:fontFamily="@font/bmhannapro"
                         android:gravity="center"
-                        android:text="Tlqkf"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="#ffffff"
                         android:textSize="24dp"
@@ -186,7 +170,6 @@
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/bmhannapro"
                         android:gravity="center"
-                        android:text="1000 ml"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="#ffffff"
                         android:textSize="24dp"
@@ -224,7 +207,6 @@
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/bmhannapro"
                         android:gravity="center"
-                        android:text="1000 ml"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="#ffffff"
                         android:textSize="24dp" />

@@ -82,7 +82,6 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
 
         ////////////////////////////서버로부터 마신량 받아오기/////////////////////////////
         try {
-            Toast.makeText(getContext(), "서버랑 연동", Toast.LENGTH_LONG).show();
             jsonresult = new DateTask().execute("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/day_drank").get();
             if (jsonresult!= null) {
                 Log.e("json값",jsonresult);
@@ -124,7 +123,6 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
         Log.e("보낸날짜", DateUtils.getFarDay(dateCount));
         ////////////////////서버로부터 마신량 받아오기/////////////////////////////
         try {
-            Toast.makeText(getContext(), "서버랑 연동", Toast.LENGTH_SHORT).show();
             jsonresult = new DateTask().execute("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/day_drank").get();
             if (jsonresult!= null) {
                 Log.e("json값",jsonresult);
@@ -147,7 +145,6 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
             ////////////////////서버로부터 마신량 받아오기/////////////////////////////
             try {
                 new DateTask().execute("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/day_drank");
-                Toast.makeText(getContext(), "서버랑 연동", Toast.LENGTH_LONG).show();
                 jsonresult = new DateTask().execute("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/day_drank").get();
                 if (jsonresult!= null) {
                     Log.e("json값",jsonresult);
@@ -167,7 +164,7 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
     }
 
     ////////////////////////////////initializeChart///////////////////////////////////////////////////////
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void initializeChart(int dayCount) {
         float TotalAmount = 0f;
         float Max = 0f;
@@ -207,7 +204,6 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
 
 
         TextView tv_date = rootView.findViewById(R.id.chart_tv_weekdate);
-        TextView tv_chartMessage = rootView.findViewById(R.id.chart_tv_message);
         tv_date.setText(DateUtils.getFarDay(dateCount) + " ~ " + DateUtils.getFarDay(dateCount + 6));
 //      TextView tv_total= getView().findViewById(R.id.chart_tv_totaldrink);
 //      tv_total.setText(String.format("%.1f",TotalAmount/1000f/sumCount)+"L");
@@ -215,12 +211,13 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
 //        if(sumCount!=0f)
 //            tv_average.setText(String.format("%.1f",TotalAmount/1000f/sumCount)+"L");
 //        else
+
+
         try {
             if (new AverageTask().execute("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/week_drank").get() != null) {
                 String average = new AverageTask().execute("http://ec2-52-79-237-177.ap-northeast-2.compute.amazonaws.com:65001/week_drank").get();
-                Toast.makeText(getActivity(), average, Toast.LENGTH_LONG).show();
-                tv_average.setText(average + "mL");
-            } else Toast.makeText(getActivity(), "평균 데이터 안와쪄요", Toast.LENGTH_SHORT).show();
+                tv_average.setText(String.format("%.2f mL",Double.parseDouble(average)));
+            }
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -268,10 +265,7 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
         barChart.getAxisLeft().setStartAtZero(true);
         barChart.getAxisLeft().setSpaceTop(45f);
 
-        if (TotalAmount > 0)
-            tv_chartMessage.setVisibility(View.INVISIBLE);
-        else
-            tv_chartMessage.setVisibility(View.VISIBLE);
+
 
         dataset.setDrawValues(true);
         dataset.setValueTextSize(13f);
@@ -296,7 +290,7 @@ public class GraphFragment extends Fragment implements OnChartValueSelectedListe
         DateUtils dName = new DateUtils();
         TextView tv_selected_anyday = rootView.findViewById(R.id.selected_anyday);
         TextView tvselectedday = rootView.findViewById(R.id.chart_tv_selectday);
-//        Toast.makeText(getActivity(), e.getXIndex(),Toast.LENGTH_SHORT).show();
+
         int position = e.getXIndex();
         final String x = barChart.getXAxis().getValues().get(position);
         tv_selected_anyday.setText(x);
